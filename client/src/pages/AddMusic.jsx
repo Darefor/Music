@@ -26,7 +26,7 @@ const AddMusic = () => {
         formData.append("music", musicFile);
 
         try {
-            const response = await fetch("http://localhost:5000/api/add-music", {
+            const response = await fetch("https://music-43ma.onrender.com/api/add-music", {
                 method: "POST",
                 credentials: "include",
                 body: formData,

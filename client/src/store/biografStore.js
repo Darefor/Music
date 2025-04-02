@@ -2,7 +2,7 @@ import {create} from "zustand"
 import axios from "axios"
 
 const DEFAULT_IMAGE_URL = "https://res.cloudinary.com/dpdwrco4f/image/upload/v1743582179/defolt/axjjfhgfwbb6oqec9h6d.jpg"
-const API_URL = "http://localhost:5000/api"
+const API_URL = "https://music-43ma.onrender.com/api"
 axios.defaults.withCredentials = true;
 
 export const useBiografStore = create((set) => ({

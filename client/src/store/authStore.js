@@ -1,7 +1,7 @@
 import {create} from "zustand"
 import axios from "axios"
 
-const API_URL = "http://localhost:5000/api"
+const API_URL = "https://music-43ma.onrender.com/api"
 axios.defaults.withCredentials = true;
 
 export const useAuthStore = create((set) => ({
