@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon sever/index.js",
     "build": "npm install && npm install --prefix client && npm run build --prefix client",
-    "start": "NODE_ENV=production node server/index.js"
+    "start": "NODE_ENV=production node sever/index.js"
   },
   "type": "module",
   "keywords": [],
