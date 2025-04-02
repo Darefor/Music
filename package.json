@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon sever/index.js",
-    "build": "npm install && npm install --prefix client --legacy-peer-deps && npm run build --prefix client",
+    "build": "npm install && npm install --prefix client  && npm run build --prefix client",
     "start": "NODE_ENV=production node sever/index.js"
   },
   "type": "module",
@@ -22,7 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.1",
     "multer": "^1.4.5-lts.2",
-    "multer-storage-cloudinary": "^4.0.0",
+    
     "nodemon": "^3.1.9"
   }
 }
