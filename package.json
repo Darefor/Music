@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon sever/index.js",
-    "build": "npm install && npm install --prefix client && npm run build --prefix client",
+    "build": "npm install && npm install --prefix client --legacy-peer-deps && npm run build --prefix client",
     "start": "NODE_ENV=production node sever/index.js"
   },
   "type": "module",
