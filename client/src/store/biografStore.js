@@ -9,6 +9,7 @@ export const useBiografStore = create((set) => ({
     //initial states
     biograf: null,
     biografs: [],
+    music: null,
     musics: [],
     isLoading: false,
     error: null,
@@ -17,9 +18,10 @@ export const useBiografStore = create((set) => ({
 
     //functions
     fetchMusics: async () => {
+        set({isLoading: true, error: null})
         try {
             const response = await axios.get(`${API_URL}/musics`);
-            set({ musics: response.data });
+            set({ musics: response.data, isLoading: false });
         } catch (error){
             set({
                 isLoading: false,
@@ -34,7 +36,7 @@ export const useBiografStore = create((set) => ({
     
         try {
             const response = await axios.post(`${API_URL}/get-music`, { musicIds });
-            set({ musics: response.data, isLoading: false }); // ✅ Зберігаємо список пісень у стан `musics`
+            set({ musics: response.data, isLoading: false });
         } catch (error) {
             set({
                 isLoading: false,
@@ -70,6 +72,24 @@ export const useBiografStore = create((set) => ({
                 error: error.response?.data?.message || "Error adding music",
             })
     
+            throw error
+        }
+    },
+    deleteMusic: async(id) => {
+        set({isLoading: true, error: null, message: null})
+
+        try{
+            const response = await axios.delete(`${API_URL}/delete-music/${id}`)
+            const {message} = response.data
+
+            set({message, isLoading: false})
+            return {message}
+        }catch (error){
+            set({
+                isLoading: false,
+                error: error.response.data.message || "Error deleting music",
+            })
+
             throw error
         }
     },

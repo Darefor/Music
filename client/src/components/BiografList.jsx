@@ -18,9 +18,14 @@ const BiografList = () => {
                 biografs.biografs.map((biograf, index) => (
                     <Link key={index} to={`/biograf/${biograf._id}`}>
                         <div className="cursor-pointer w-36 md:w-40 xl:w-44 shadow sm:hover:shadow-rm rounded-b-md">
-                            <div className="h-48 md:h-52 xl:h-60 bg-gray-900">
-                                <img src={biograf.image || "default-image.jpg"} alt="biograf_img" className="w-full max-h-50 h-60"/>
-                            </div>
+                        <div className="h-48 md:h-52 xl:h-60 bg-gray-900 overflow-hidden">
+                        <img 
+                            src={biograf.image || "default-image.jpg"} 
+                            alt="biograf_img" 
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+
 
                             <div>
                             <h2 className="text-base mb-2 md:text-lg font-bold truncate">{biograf.title}</h2>

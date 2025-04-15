@@ -30,7 +30,7 @@ const Navbar = () => {
                          
             <div className="flex items-center space-x-5 md:text-lg">
                 <Link to={"/"}><p className="px-3 py-2">Home</p></Link>
-                <Link to={"/music"}><p className="px-3 py-2">Music</p></Link>
+                <Link to={"/musics"}><p className="px-3 py-2">Music</p></Link>
                 <Link to={"/biofrafs"}><p className="px-3 py-2">Biograf</p></Link>
                 <Link to={"/search"}><p className="px-3 py-2">Search</p></Link>
             </div>

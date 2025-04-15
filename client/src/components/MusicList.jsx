@@ -1,32 +1,77 @@
-import { Link } from "react-router"
+import { useEffect, useState } from "react"
+import { useParams, useNavigate } from "react-router"
+import { useBiografStore } from "../store/biografStore"
+import { useAuthStore } from "../store/authStore"
+import toast from "react-hot-toast"
+
 
 const MusicList = () => {
-    const musics = ["", "", "", "", "", ""]
-    return (
-        <div className="text[#252422] bg-[#F5F5F5] px-4 md:px-12 pb-20">
-            <h1 className="py-6 text-xl md:text-2xl lg:text-3xl w-full mx-auto max-w-6xl ">Reaer&rsqo;s favorite</h1>
-        
-            <div className="flex flex-wrap justify-center gap-5 lg:gap-8 max-w-6xl mx-auto">
-                {musics.map((music, index) => (
-                    <Link key={index} to={"/book/123"}>
-                        <div className="cursor-pointer w-36 md:w-40 xl:w-44 shadow sm hover:shadow-rm rounded-b-md ">
-                            <div>
-                                <img />
-                            </div>
+  const { user } = useAuthStore()
+  const navigate = useNavigate()
+  const [openMenuId, setOpenMenuId] = useState(null)
 
-                            <div>
-                                <h2>The Nice Book</h2>
-                                <p>John Doe</p>
-                            </div>
+  const { musics, fetchMusics, isLoading, deleteMusic } = useBiografStore()
 
-                        </div>
+  useEffect(() => {
+    fetchMusics()
+  }, [fetchMusics])
 
-                    </Link>
-                ))}
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      const { message } = await deleteMusic(id)
+      toast.success(message)
+      fetchMusics() 
+      setOpenMenuId(null)
+    } catch (error) {
+      toast.error("Failed to delete music.")
+      console.error(error)
+    }
+  }
+
+  return (
+    <div className="min-h-screen text-[#252422] bg-[#f5f5f5] px-4 md:px-12 pb-10">
+      <div className="music mt-6">
+        <h2 className="text-2xl font-bold">Music List:</h2>
+        {Array.isArray(musics.musics) ? (
+          musics.musics.map((music, index) => (
+            <div className="border-2 m-2" key={music._id}>
+              <p>{music.title}</p>
+              <audio controls src={music.link}></audio>
+
+              {user && (
+                <div className="text-2xl font-bold -mt-2 relative flex justify-end">
+                  <span
+                    onClick={() =>
+                      setOpenMenuId(openMenuId === music._id ? null : music._id)
+                    }
+                    className="cursor-pointer tracking-widest"
+                  >
+                    ...
+                  </span>
+                  {openMenuId === music._id && (
+                    <div className="absolute bg-[#f5f5f5] shadow-md pb-2 px-5 text-base font-normal right-0 top-10">
+                      <p
+                        onClick={() => handleDelete(music._id)} 
+                        className="text-red-500 cursor-pointer"
+                      >
+                        Delete
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-        
-        </div>
-    )
+          ))
+        ) : (
+          <p>No music found.</p>
+        )}
+      </div>
+    </div>
+  )
 }
 
 export default MusicList

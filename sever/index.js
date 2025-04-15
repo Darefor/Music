@@ -256,6 +256,40 @@ app.post("/api/add-music", upload.single("music"), async (req, res) => {
         return res.status(400).json({ message: error.message })
     }
 });
+app.delete("/api/delete-music/:id", async (req, res) => {
+    const {id} = req.params
+    const {token} = req.cookies
+    if(!token){
+        return res.status(401).json({message: "No token ptovider"})
+    }
+
+    try{
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        if(!decoded){
+            return res.status(401).json({message: "invalid token,"})
+        }
+
+        const music = await Music.findById(id)
+        if (!music) {
+            return res.status(404).json({ message: "Biograf not found" })
+        }
+
+
+        //Delete the image first
+        const parts = music.link.split("/")
+        const fileName = parts[parts.length - 1]
+        const musicId = fileName.split(".")[0]
+
+        cloudinary.uploader
+            .destroy(`music/${musicId}`)
+            .then((result) => console.log("result", result, `music/${musicId}`))
+
+        // Delete the data from db
+        await Music.findByIdAndDelete(id)
+        return res.status(200).json({message: "Music deleted successfully."})
+
+    }catch(error){}
+})
 
 
 
@@ -313,6 +347,9 @@ app.post("/api/get-music", async (req, res) => {
         return res.status(500).json({ message: "Error fetching music" })
     }
 })
+
+
+
 
 
 if(process.env.NODE_ENV === "production"){

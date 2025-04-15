@@ -12,6 +12,7 @@ import { useEffect } from "react"
 import RedirectAuthenticatedUsers from "./providers/RedirectAuthenticatedUsers"
 import RedirectUnAuthenticatedUsers from "./providers/RedirectUnAuthenticatedUsers"
 import BiografDetail from "./pages/Biograf"
+import MusicsPage from "./pages/Musics"
 
 
 function App() {
@@ -63,7 +64,16 @@ function App() {
           <Route path={"/biograf/:id"} element={<BiografDetail />
           } />
 
+          <Route path={"/musics"} element={
+            <RedirectUnAuthenticatedUsers> 
+              <MusicsPage />
+            </RedirectUnAuthenticatedUsers>
+          } />
+
         </Routes>
+
+
+
 
         <Footer />
     </>

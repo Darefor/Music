@@ -1,12 +1,12 @@
 import BiografList from "../components/BiografList"
-import Hero from "../components/Hero"
-import MusicList from "../components/MusicList"
+// import Hero from "../components/Hero"
+// import MusicList from "../components/MusicList"
 
 const HomePage = () => {
     return (
 
         <div>
-            <Hero />
+            {/* <Hero /> */}
             <BiografList />
             {/* <MusicList /> */}
         </div>
