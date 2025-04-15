@@ -64,7 +64,7 @@ const BiografDetail = () => {
               </div>
             )}
           </div>
-
+            
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">{biograf?.title}</h1>
 
           <p className="mt-2 font-semibold text-lg md:text-xl">
@@ -77,7 +77,13 @@ const BiografDetail = () => {
         <h2 className="text-2xl font-bold">Music List:</h2>
         {musics.length > 0 ? (
           musics.map((music, index) => (
-            <p key={index}>{music.title}</p> 
+            <div>
+              <p key={index}>{music.title}</p> 
+              <audio controls src={music.link}></audio>
+
+            </div>
+            
+            
           ))
         ) : (
           <p>Loading music...</p>

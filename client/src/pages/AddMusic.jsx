@@ -1,50 +1,82 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { useBiografStore } from "../store/biografStore";
 
 const AddMusic = () => {
     const [title, setTitle] = useState("");
     const [musicFile, setMusicFile] = useState(null);
+    // const [isLoading, setIsLoading] = useState(false);
+    const { isLoading, error, addMusic } = useBiografStore()
+    
     const navigate = useNavigate();
-    
-    
 
     const handleFileChange = (e) => {
-        setMusicFile(e.target.files[0]);  // Отримуємо вибраний файл
+        setMusicFile(e.target.files[0]);
     };
+    
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
 
-        if (!title || !musicFile) {
+    // const handleImageChange = (e) => {
+    //     const file = e.target.files[0]
+
+    //     let reader = new FileReader()
+    //     reader.readAsDataURL(file)
+
+    //     reader.onloadend = function (){
+    //         setImage(reader.result)
+            
+    //     }
+    // }
+
+
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+
+        if (!title.trim() || !musicFile) {
             toast.error("Заповніть всі обов'язкові поля");
             return;
         }
 
-        const formData = new FormData();
-        formData.append("title", title);
-        formData.append("music", musicFile);
+        const {message} = await addMusic(title, musicFile)
+        toast.success(message)
+        navigate("/")
+    }
 
-        try {
-            const response = await fetch("https://music-43ma.onrender.com/api/add-music", {
-                method: "POST",
-                credentials: "include",
-                body: formData,
-            });
-            
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
 
-            const data = await response.json();
+    //     if (!title.trim() || !musicFile) {
+    //         toast.error("Заповніть всі обов'язкові поля");
+    //         return;
+    //     }
 
-            if (response.ok) {
-                toast.success(data.message);
-                navigate("/");
-            } else {
-                toast.error(data.message);
-            }
-        } catch (error) {
-            toast.error("Помилка при додаванні музики");
-        }
-    };
+    //     setIsLoading(true);
+    //     const formData = new FormData();
+    //     formData.append("title", title.trim());
+    //     formData.append("music", musicFile);
+
+    //     try {
+    //         const response = await fetch("http://localhost:5000/api/add-music", {
+    //             method: "POST",
+    //             credentials: "include",
+    //             body: formData,
+    //         });
+
+    //         const data = await response.json();
+
+    //         if (response.ok) {
+    //             toast.success(data.message);
+    //             navigate("/");
+    //         } else {
+    //             toast.error(data.message);
+    //         }
+    //     } catch (error) {
+    //         toast.error("Помилка при додаванні музики");
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
 
     return (
         <div className="min-h-screen text-[#252422] bg-[#f5f5f5] px-4 md:px-12 pb-16">
@@ -56,7 +88,6 @@ const AddMusic = () => {
                 onSubmit={handleSubmit}
                 className="flex flex-col justify-center items-center w-full max-w-xl mx-auto space-y-4 mt-10"
             >
-                {/* Назва музики */}
                 <div className="flex flex-col w-full">
                     <label className="md:text-lg">Music Name</label>
                     <input
@@ -64,10 +95,10 @@ const AddMusic = () => {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         className="w-full px-3 py-1.5 md:py-2 text-[#252422] rounded-lg bg-white border border-gray-500"
+                        disabled={isLoading}
                     />
                 </div>
 
-                {/* Завантаження файлу */}
                 <div className="flex flex-col w-full">
                     <label className="md:text-lg">Upload Music File</label>
                     <input
@@ -75,15 +106,18 @@ const AddMusic = () => {
                         accept="audio/*"
                         onChange={handleFileChange}
                         className="w-full px-3 py-1.5 md:py-2 text-[#252422] rounded-lg bg-white border border-gray-500"
+                        disabled={isLoading}
                     />
                 </div>
 
-                {/* Кнопка додати */}
                 <button
                     type="submit"
-                    className="w-full bg-[#403D39] text-[#FFFCF2] py-2 font-medium rounded-lg"
+                    className={`w-full py-2 font-medium rounded-lg transition ${
+                        isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#403D39] text-[#FFFCF2]"
+                    }`}
+                    disabled={isLoading}
                 >
-                    Upload Music
+                    {isLoading ? "Uploading..." : "Upload Music"}
                 </button>
             </form>
         </div>

@@ -72,7 +72,7 @@ const SignupPage = () => {
                 <button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-[#403D39] text-[#FFFCF2] py-2 font-medium rounded-lg"
+                    className={`w-full py-2 font-medium rounded-lg transition ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#403D39] text-[#FFFCF2]"}`}
                 >
                     {isLoading ? "Please wait..." : "Sign up"}
                 </button>

@@ -2,7 +2,9 @@ import {create} from "zustand"
 import axios from "axios"
 
 const DEFAULT_IMAGE_URL = "https://res.cloudinary.com/dpdwrco4f/image/upload/v1743582179/defolt/axjjfhgfwbb6oqec9h6d.jpg"
-const API_URL = "https://music-43ma.onrender.com/api"
+const API_URL = import.meta.env.VITE_API_URL + "/api"
+console.log("ENV")
+console.log(import.meta.env.VITE_API_URL + "/api")
 axios.defaults.withCredentials = true;
 
 export const useBiografStore = create((set) => ({
@@ -13,7 +15,7 @@ export const useBiografStore = create((set) => ({
     isLoading: false,
     error: null,
     message: null,
-
+    
 
     //functions
     fetchMusics: async () => {
@@ -43,6 +45,37 @@ export const useBiografStore = create((set) => ({
             console.error("Error fetching music:", error);
         }
     },
+    addMusic: async (title, file) => {
+        set({ isLoading: true, error: null, message: null })
+    
+        try {
+            const formData = new FormData()
+            formData.append("title", title)
+            formData.append("music", file)
+    
+            const response = await axios.post(`${API_URL}/add-music`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+    
+            if (!response || !response.data) {
+                throw new Error("Server response is invalid")
+            }
+    
+            const { message, music } = response.data
+            set({ music, message, isLoading: false })
+            return { message, music }
+        } catch (error) {
+            set({
+                isLoading: false,
+                error: error.response?.data?.message || "Error adding music",
+            })
+    
+            throw error
+        }
+    },
+    
     
 
     fetchBiografs: async () => {

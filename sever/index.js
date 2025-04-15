@@ -30,7 +30,7 @@ const PORT = process.env.PORT || 5000
 const __dirname = path.resolve()
 
 // milewares
-app.use(cors({origin: "https://music-43ma.onrender.com", credentials: true }))
+app.use(cors({origin: `${process.env.URL}`, credentials: true }))
 app.use(express.json({limit:"20mb"}))
 app.use(cookieParser());
 
@@ -214,22 +214,22 @@ app.delete("/api/delete-biograf/:id", async (req, res) => {
 
 // ========= Music Functionalities ================
 app.post("/api/add-music", upload.single("music"), async (req, res) => {
-    const { title } = req.body;
-    const { token } = req.cookies;
-    const musicFile = req.file; // Тут файл є!
+    const { title } = req.body
+    const { token } = req.cookies
+    const musicFile = req.file
 
     if (!token) {
-        return res.status(401).json({ message: "No token provided" });
+        return res.status(401).json({ message: "No token provided" })
     }
     if (!musicFile) {
-        return res.status(400).json({ message: "No music file uploaded" });
+        return res.status(400).json({ message: "No music file uploaded" })
     }
 
     try {
         // Перевірка токена
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
         if (!decoded) {
-            return res.status(401).json({ message: "Invalid token" });
+            return res.status(401).json({ message: "Invalid token" })
         }
 
         // Завантаження файлу в Cloudinary
@@ -237,11 +237,11 @@ app.post("/api/add-music", upload.single("music"), async (req, res) => {
             const uploadStream = cloudinary.uploader.upload_stream(
                 { resource_type: "video", folder: "music" },
                 (error, result) => {
-                    if (error) reject(error);
-                    else resolve(result);
+                    if (error) reject(error)
+                    else resolve(result)
                 }
             );
-            uploadStream.end(musicFile.buffer);
+            uploadStream.end(musicFile.buffer)
         });
 
         // Збереження в базі
@@ -250,10 +250,10 @@ app.post("/api/add-music", upload.single("music"), async (req, res) => {
             link: result.secure_url, // Посилання на Cloudinary
         });
 
-        return res.status(200).json({ music: newMusic, message: "Music added successfully" });
+        return res.status(200).json({ music: newMusic, message: "Music added successfully" })
 
     } catch (error) {
-        return res.status(400).json({ message: error.message });
+        return res.status(400).json({ message: error.message })
     }
 });
 

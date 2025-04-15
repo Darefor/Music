@@ -51,7 +51,6 @@ const AddBiograf = () => {
             return;
         }
 
-        // console.log(image, title, music, description)
 
         const {message} = await addBiograf(image, title, music, description)
         toast.success(message)
@@ -106,7 +105,9 @@ const AddBiograf = () => {
             <button 
                 type="submit" 
                 disabled={isLoading}
-                className="w-full bg-[#403D39] text-[#FFFCF2] py-2 font-medium rounded-lg"
+                className={`w-full py-2 font-medium rounded-lg transition ${
+                    isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#403D39] text-[#FFFCF2]"
+                }`}
             >
                 {isLoading ? "Please wait..." : "Add biograf"}
                 
