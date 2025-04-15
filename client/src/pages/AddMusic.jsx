@@ -6,7 +6,6 @@ import { useBiografStore } from "../store/biografStore";
 const AddMusic = () => {
     const [title, setTitle] = useState("");
     const [musicFile, setMusicFile] = useState(null);
-    // const [isLoading, setIsLoading] = useState(false);
     const { isLoading, error, addMusic } = useBiografStore()
     
     const navigate = useNavigate();
@@ -15,20 +14,6 @@ const AddMusic = () => {
         setMusicFile(e.target.files[0]);
     };
     
-
-
-    // const handleImageChange = (e) => {
-    //     const file = e.target.files[0]
-
-    //     let reader = new FileReader()
-    //     reader.readAsDataURL(file)
-
-    //     reader.onloadend = function (){
-    //         setImage(reader.result)
-            
-    //     }
-    // }
-
 
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -42,41 +27,6 @@ const AddMusic = () => {
         toast.success(message)
         navigate("/")
     }
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     if (!title.trim() || !musicFile) {
-    //         toast.error("Заповніть всі обов'язкові поля");
-    //         return;
-    //     }
-
-    //     setIsLoading(true);
-    //     const formData = new FormData();
-    //     formData.append("title", title.trim());
-    //     formData.append("music", musicFile);
-
-    //     try {
-    //         const response = await fetch("http://localhost:5000/api/add-music", {
-    //             method: "POST",
-    //             credentials: "include",
-    //             body: formData,
-    //         });
-
-    //         const data = await response.json();
-
-    //         if (response.ok) {
-    //             toast.success(data.message);
-    //             navigate("/");
-    //         } else {
-    //             toast.error(data.message);
-    //         }
-    //     } catch (error) {
-    //         toast.error("Помилка при додаванні музики");
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
 
     return (
         <div className="min-h-screen text-[#252422] bg-[#f5f5f5] px-4 md:px-12 pb-16">

@@ -86,10 +86,6 @@ const AddBiograf = () => {
             
             <SearchableInput value={music} options={musics ? musics.musics : []} onSelect={handleMusicSelect} />
             <span>{music}</span>
-            {/* {console.log(musics)} */}
-            {/* <input type="text" value={value} /> */}
-
-
             <div className="flex flex-col w-full">
                 <label className="md:text-lg">Description: </label>
                 <textarea
