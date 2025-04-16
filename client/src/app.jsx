@@ -64,10 +64,7 @@ function App() {
           <Route path={"/biograf/:id"} element={<BiografDetail />
           } />
 
-          <Route path={"/musics"} element={
-            <RedirectUnAuthenticatedUsers> 
-              <MusicsPage />
-            </RedirectUnAuthenticatedUsers>
+          <Route path={"/musics"} element={<MusicsPage />
           } />
 
         </Routes>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router"
+// import { useParams, useNavigate } from "react-router"
 import { useBiografStore } from "../store/biografStore"
 import { useAuthStore } from "../store/authStore"
 import toast from "react-hot-toast"
@@ -7,7 +7,7 @@ import toast from "react-hot-toast"
 
 const MusicList = () => {
   const { user } = useAuthStore()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [openMenuId, setOpenMenuId] = useState(null)
 
   const { musics, fetchMusics, isLoading, deleteMusic } = useBiografStore()
