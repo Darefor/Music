@@ -47,26 +47,33 @@ const BiografDetail = () => {
         </div>
 
         <div className="mt-6 md:mt-0 md:max-w-4xl basis-[65%]">
-          <div className="flex justify-between items-center">
-            {user && (
-              <div className="text-2xl font-bold -mt-2 relative flex justify-end">
-                <span
-                  onClick={() => setOpen(!open)}
-                  className="cursor-pointer tracking-widest"
+          
+
+
+        {user && (
+          <div className="relative">
+            <button
+              onClick={() => setOpen(!open)}
+              className="absolute right-0 top-0 text-3xl font-bold px-2 cursor-pointer"
+            >
+              ...
+            </button>
+            {open && (
+              <div className="absolute right-0 top-10 bg-[#f5f5f5] shadow-md rounded-md p-3 z-10">
+                <p
+                  onClick={handleDelete}
+                  className="text-red-600 hover:text-red-700 cursor-pointer"
                 >
-                  ...
-                </span>
-                {open && (
-                  <div className="absolute bg-[#f5f5f5] shadow-md pb-2 px-5 text-base font-normal right-0 top-10">
-                    <p onClick={handleDelete} className="text-red-500 cursor-pointer">Delete</p>
-                  </div>
-                )}
+                  Delete
+                </p>
               </div>
             )}
           </div>
+        )}
+
             
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">{biograf?.title}</h1>
-
+        
           <p className="mt-2 font-semibold text-lg md:text-xl">
             Description: <span className="md:text-lg"> {biograf?.description}</span>
           </p>
