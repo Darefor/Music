@@ -72,11 +72,17 @@ const BiografDetail = () => {
         )}
 
             
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">{biograf?.title}</h1>
-        
-          <p className="mt-2 font-semibold text-lg md:text-xl">
-            Description: <span className="md:text-lg"> {biograf?.description}</span>
+      <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">{biograf?.title}</h1>
+
+      <div className="mt-4">
+        <p className="font-semibold text-lg md:text-xl mb-2">Description:</p>
+        {biograf?.description?.split('\n').map((para, idx) => (
+          <p key={idx} className="md:text-lg mb-3 whitespace-pre-line">
+            {para}
           </p>
+        ))}
+        </div>
+
         </div>
       </div>
       
